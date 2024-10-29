@@ -14,6 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
 
+    $allowed_emails = ['gmail.com', 'outlook.com', 'yahoo.com'];
+    $email = $_POST['email'];
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailName = substr(strrchr($email, "@"), 1);
+        // Check if the domain is in the allowed list
+        if (in_array($emailName, $allowed_emails)) {
+            echo "Valid Email";
+            // Proceed with the rest of the registration process
+        } else {
+            echo "Error, only Gmail, Yahoo, and Outlook are allowed!";
+        }
+    } else {
+        echo "Invalid email format.";
+    }
+
     $sql = "INSERT INTO users (name, phone, email, password, dob) VALUES (:name, :phone, :email, :password, :dob)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['name' => $name, 'phone' => $phone, 'email' => $email, 'password' => $password, 'dob' => $dob]);
@@ -30,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register New User</title>
     <script>
-        // Capitalize First and Last Names
+        // Capitalize First and Last Names 
         function nameCapitalise() {
             const nameEntered = document.getElementById('names');
             const words = nameEntered.value.trim().split(" ");

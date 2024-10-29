@@ -1,5 +1,8 @@
 <?php
 
+//ESMOND AGHARO 07035967785. 
+//Not too strong in Laravel, thanks.
+
 $host = 'localhost';
 $dbname = 'interview';
 $username = 'root'; 
@@ -11,7 +14,6 @@ try {
 } catch (PDOException $e) {
     die("Error: Could not connect. " . $e->getMessage());
 }
-
 
 
 
